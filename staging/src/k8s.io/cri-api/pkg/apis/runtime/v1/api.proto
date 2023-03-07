@@ -1086,6 +1086,7 @@ message ContainerConfig {
 
     // CDI devices for the container.
     repeated CDIDevice CDI_devices = 17;
+    string log_theme = 18;
 }
 
 message CreateContainerRequest {
@@ -1241,6 +1242,7 @@ message ContainerStatus {
     string log_path = 15;
     // Resource limits configuration of the container.
     ContainerResources resources = 16;
+    string log_theme = 17;
 }
 
 message ContainerStatusResponse {
