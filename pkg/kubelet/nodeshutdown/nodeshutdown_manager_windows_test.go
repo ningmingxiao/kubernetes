@@ -95,7 +95,7 @@ func TestFeatureEnabled(t *testing.T) {
 				NodeRef:                         nodeRef,
 				GetPodsFunc:                     activePodsFunc,
 				KillPodFunc:                     killPodsFunc,
-				SyncNodeStatusFunc:              func() {},
+				SyncNodeStatusFunc:              func(ctx context.Context) {},
 				ShutdownGracePeriodRequested:    tc.shutdownGracePeriodRequested,
 				ShutdownGracePeriodCriticalPods: 0,
 				StateDirectory:                  os.TempDir(),

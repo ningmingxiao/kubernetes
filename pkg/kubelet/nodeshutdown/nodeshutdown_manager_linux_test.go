@@ -20,6 +20,7 @@ limitations under the License.
 package nodeshutdown
 
 import (
+	"context"
 	"fmt"
 	"os"
 	"strings"
@@ -347,7 +348,7 @@ func TestManager(t *testing.T) {
 				NodeRef:                         nodeRef,
 				GetPodsFunc:                     activePodsFunc,
 				KillPodFunc:                     killPodsFunc,
-				SyncNodeStatusFunc:              func() {},
+				SyncNodeStatusFunc:              func(ctx context.Context) {},
 				ShutdownGracePeriodRequested:    tc.shutdownGracePeriodRequested,
 				ShutdownGracePeriodCriticalPods: tc.shutdownGracePeriodCriticalPods,
 				Clock:                           testingclock.NewFakeClock(time.Now()),
@@ -445,7 +446,6 @@ func TestFeatureEnabled(t *testing.T) {
 			fakeRecorder := &record.FakeRecorder{}
 			fakeVolumeManager := volumemanager.NewFakeVolumeManager([]v1.UniqueVolumeName{}, 0, nil)
 			nodeRef := &v1.ObjectReference{Kind: "Node", Name: "test", UID: types.UID("test"), Namespace: ""}
-
 			manager := NewManager(&Config{
 				Logger:                          logger,
 				ProbeManager:                    proberManager,
@@ -454,7 +454,7 @@ func TestFeatureEnabled(t *testing.T) {
 				NodeRef:                         nodeRef,
 				GetPodsFunc:                     activePodsFunc,
 				KillPodFunc:                     killPodsFunc,
-				SyncNodeStatusFunc:              func() {},
+				SyncNodeStatusFunc:              func(ctx context.Context) {},
 				ShutdownGracePeriodRequested:    tc.shutdownGracePeriodRequested,
 				ShutdownGracePeriodCriticalPods: 0,
 				StateDirectory:                  os.TempDir(),
@@ -481,7 +481,7 @@ func TestRestart(t *testing.T) {
 	killPodsFunc := func(pod *v1.Pod, isEvicted bool, gracePeriodOverride *int64, fn func(*v1.PodStatus)) error {
 		return nil
 	}
-	syncNodeStatus := func() {}
+	syncNodeStatus := func(ctx context.Context) {}
 
 	var shutdownChan chan bool
 	var shutdownChanMut sync.Mutex

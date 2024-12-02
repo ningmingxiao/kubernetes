@@ -59,7 +59,7 @@ type managerImpl struct {
 	probeManager prober.Manager
 
 	getPods        eviction.ActivePodsFunc
-	syncNodeStatus func()
+	syncNodeStatus func(ctx context.Context)
 
 	nodeShuttingDownMutex sync.Mutex
 	nodeShuttingDownNow   bool
